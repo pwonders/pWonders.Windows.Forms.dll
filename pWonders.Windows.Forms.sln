@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pWonders.Windows.Forms", "pWonders.Windows.Forms.csproj", "{2D900F44-D6BF-4D8A-B098-97B37A9F2803}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pWonders.Windows.Forms.Test", "pWonders.Windows.Forms.Test\pWonders.Windows.Forms.Test.csproj", "{AD43EBFB-EC36-4A2B-843B-00C8E842DBD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pWonders.Win32", "..\Win32\pWonders.Win32.csproj", "{CC327F64-B393-4DF1-9CC1-F2D082270DDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{2D900F44-D6BF-4D8A-B098-97B37A9F2803}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D900F44-D6BF-4D8A-B098-97B37A9F2803}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D900F44-D6BF-4D8A-B098-97B37A9F2803}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD43EBFB-EC36-4A2B-843B-00C8E842DBD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD43EBFB-EC36-4A2B-843B-00C8E842DBD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD43EBFB-EC36-4A2B-843B-00C8E842DBD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD43EBFB-EC36-4A2B-843B-00C8E842DBD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC327F64-B393-4DF1-9CC1-F2D082270DDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC327F64-B393-4DF1-9CC1-F2D082270DDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC327F64-B393-4DF1-9CC1-F2D082270DDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC327F64-B393-4DF1-9CC1-F2D082270DDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

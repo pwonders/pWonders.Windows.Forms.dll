@@ -6,7 +6,6 @@ using Microsoft.Win32;
 
 namespace System.Windows.Forms
 {
-	[System.ComponentModel.DesignerCategory("")]
 	public class VForm : System.Windows.Forms.Form
 	{
 		public VForm()
@@ -17,6 +16,10 @@ namespace System.Windows.Forms
 			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
 			SetStyle(ControlStyles.UserPaint, true);
 		}
+
+		[Category("Behavior")]
+		[DefaultValue(false)]
+		public bool AllowDragClient { set; get; }
 
 		[Category("Appearance")]
 		public Padding ExtendFrame
@@ -87,6 +90,18 @@ namespace System.Windows.Forms
 			if (m_BlurWin10)
 			{
 				set_BlurWin10();
+			}
+		}
+
+		protected override void WndProc(ref Message m)
+		{
+			base.WndProc(ref m);
+			if (this.AllowDragClient)
+			{
+				if (m.Msg == g.WM_NCHITTEST && m.Result == new IntPtr(g.HTCLIENT))
+				{
+					m.Result = new IntPtr(g.HTCAPTION);
+				}
 			}
 		}
 
