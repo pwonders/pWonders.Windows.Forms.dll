@@ -9,7 +9,7 @@ namespace System.Drawing
 		static UIColor()
 		{
 			s_Settings = new UISettings();
-			s_Settings.ColorValuesChanged += UISettings_ColorValuesChanged;
+			//s_Settings.ColorValuesChanged += UISettings_ColorValuesChanged;
 		}
 
 		public static Color Blend(Color color1, Color color2, int alpha)
@@ -85,6 +85,12 @@ namespace System.Drawing
 			get { return Color_from_UIColorType(UIColorType.Foreground); }
 		}
 
+		// Start menu and action center have different colors.
+		public static Color Shell
+		{
+			get { return FromName(Name.ImmersiveStartBackground); }
+		}
+
 		public static Color ShellWithTransparency
 		{
 			get { return Color.FromArgb(0xcc, Blend(FromName(Name.ImmersiveStartBackground), FromName(Name.ImmersiveSystemAccentDark2), 0xcc)); }
@@ -92,7 +98,7 @@ namespace System.Drawing
 		
 		static UISettings s_Settings;
 
-		// DOesn't work.
+		// Doesn't work.
 		// https://social.msdn.microsoft.com/Forums/en-US/2a1e3d21-17a1-47d1-9783-6f4e97900f96/uisettingscolorvalueschanged?forum=wpdevelop, 2017-08-01.
 		static void UISettings_ColorValuesChanged(UISettings sender, object obj)
 		{
