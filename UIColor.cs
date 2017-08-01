@@ -8,16 +8,8 @@ namespace System.Drawing
 	{
 		static UIColor()
 		{
-			try
-			{
-				s_Settings = new UISettings();
-				s_Settings.ColorValuesChanged += UISettings_ColorValuesChanged;
-				s_IsValid = true;
-			}
-			catch
-			{
-				s_IsValid = false;
-			}
+			s_Settings = new UISettings();
+			s_Settings.ColorValuesChanged += UISettings_ColorValuesChanged;
 		}
 
 		public static Color Blend(Color color1, Color color2, int alpha)
@@ -40,98 +32,84 @@ namespace System.Drawing
 			int colorSet = g.GetImmersiveUserColorSetPreference(false, false);
 			int colorType = g.GetImmersiveColorTypeFromName(name);
 			int abgr = g.GetImmersiveColorFromColorSetEx(colorSet, colorType, false, 0);
-			return Color_From_Abgr(abgr);
-		}
-
-		public static bool IsValid
-		{
-			get { return s_IsValid; }
+			return Color_from_abgr(abgr);
 		}
 
 		public static Color Accent
 		{
-			get { return Color_From_UIColorType(UIColorType.Accent); }
+			get { return Color_from_UIColorType(UIColorType.Accent); }
 		}
 
 		public static Color AccentDark1
 		{
-			get { return Color_From_UIColorType(UIColorType.AccentDark1); }
+			get { return Color_from_UIColorType(UIColorType.AccentDark1); }
 		}
 
 		public static Color AccentDark2
 		{
-			get { return Color_From_UIColorType(UIColorType.AccentDark2); }
+			get { return Color_from_UIColorType(UIColorType.AccentDark2); }
 		}
 
 		public static Color AccentDark3
 		{
-			get { return Color_From_UIColorType(UIColorType.AccentDark3); }
+			get { return Color_from_UIColorType(UIColorType.AccentDark3); }
 		}
 
 		public static Color AccentLight1
 		{
-			get { return Color_From_UIColorType(UIColorType.AccentLight1); }
+			get { return Color_from_UIColorType(UIColorType.AccentLight1); }
 		}
 
 		public static Color AccentLight2
 		{
-			get { return Color_From_UIColorType(UIColorType.AccentLight2); }
+			get { return Color_from_UIColorType(UIColorType.AccentLight2); }
 		}
 
 		public static Color AccentLight3
 		{
-			get { return Color_From_UIColorType(UIColorType.AccentLight3); }
+			get { return Color_from_UIColorType(UIColorType.AccentLight3); }
 		}
 
 		public static Color Background
 		{
-			get { return Color_From_UIColorType(UIColorType.Background); }
+			get { return Color_from_UIColorType(UIColorType.Background); }
 		}
 
 		public static Color Complement
 		{
-			get { return Color_From_UIColorType(UIColorType.Complement); }
+			get { return Color_from_UIColorType(UIColorType.Complement); }
 		}
 
 		public static Color Foreground
 		{
-			get { return Color_From_UIColorType(UIColorType.Foreground); }
+			get { return Color_from_UIColorType(UIColorType.Foreground); }
 		}
 
 		public static Color ShellWithTransparency
 		{
-			get { return Color.FromArgb(0xdd, Blend(FromName(Name.ImmersiveStartBackground), FromName(Name.ImmersiveSystemAccentDark3), 0xdd)); }
+			get { return Color.FromArgb(0xcc, Blend(FromName(Name.ImmersiveStartBackground), FromName(Name.ImmersiveSystemAccentDark2), 0xcc)); }
 		}
-
-		static bool s_IsValid;
+		
 		static UISettings s_Settings;
 
+		// DOesn't work.
+		// https://social.msdn.microsoft.com/Forums/en-US/2a1e3d21-17a1-47d1-9783-6f4e97900f96/uisettingscolorvalueschanged?forum=wpdevelop, 2017-08-01.
 		static void UISettings_ColorValuesChanged(UISettings sender, object obj)
 		{
-			System.Diagnostics.Debug.WriteLine(obj);
+			System.Diagnostics.Debug.WriteLine(obj, "UISettings_ColorValuesChanged");
 		}
 
-		static Color Color_From_UIColorType(UIColorType desiredColor)
+		static Color Color_from_UIColorType(UIColorType desiredColor)
 		{
-			global::Windows.UI.Color uic;
-			try
-			{
-				uic = s_Settings.GetColorValue(desiredColor);
-			}
-			catch
-			{
-				s_IsValid = false;
-				return Color.Empty;
-			}
-			return Color_From_UIColor(uic);
+			return Color_from_UIColor(s_Settings.GetColorValue(desiredColor));
 		}
 
-		static Color Color_From_UIColor(global::Windows.UI.Color color)
+		static Color Color_from_UIColor(global::Windows.UI.Color color)
 		{
 			return Color.FromArgb(color.A, color.R, color.G, color.B);
 		}
 
-		static Color Color_From_Abgr(int abgr)
+		static Color Color_from_abgr(int abgr)
 		{
 			byte a = (byte) ((0xff000000 & abgr) >> 24);
 			byte b = (byte) ((0x00ff0000 & abgr) >> 16);
