@@ -10,10 +10,17 @@ namespace pWonders.Windows.Forms.Test
 		public Form1()
 		{
 			InitializeComponent();
-			this.BackColor = Color.FromArgb(0xff, UIColor.ShellWithTransparency);
-			this.BackColor = Color.FromArgb(0xff, Color.Black);
+
+			bool frame = false;
+			if (frame)
+			{
+				this.FormBorderStyle = FormBorderStyle.FixedSingle;
+				this.MinimizeBox = true;
+				this.MaximizeBox = false;
+			}
+
+			this.BlurBorder = AccentBorder.Left;
 			this.BlurColor = UIColor.ShellWithTransparency;
-			this.BlurBorder = AccentBorder.All;
 			this.BlurWin10 = true;
 			this.Opacity = 254 / 255.0;
 		}

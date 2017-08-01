@@ -47,7 +47,6 @@
 			// Form1
 			// 
 			this.AllowDragClient = true;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
 			this.ClientSize = new System.Drawing.Size(640, 480);
 			this.Controls.Add(this.button1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

@@ -40,11 +40,7 @@ namespace System.Windows.Forms
 	{
 		public VForm()
 		{
-			return;
-			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-			SetStyle(ControlStyles.UserPaint, true);
+			ResetBlurColor();
 		}
 
 		/// <summary>
@@ -67,12 +63,9 @@ namespace System.Windows.Forms
 				if (m_ExtendFrame != value)
 				{
 					m_ExtendFrame = value;
-					if (m_ExtendFrame != Padding.Empty)
+					if (this.DesignMode == false && this.IsHandleCreated)
 					{
-						if (this.DesignMode == false && this.IsHandleCreated)
-						{
-							set_ExtendFrame();
-						}
+						set_ExtendFrame();
 					}
 				}
 			}
@@ -113,7 +106,7 @@ namespace System.Windows.Forms
 				if (m_BlurColor != value)
 				{
 					m_BlurColor = value;
-					if (this.DesignMode == false && this.IsHandleCreated)
+					if (this.DesignMode == false && this.IsHandleCreated && m_BlurWin10)
 					{
 						set_BlurWin10();
 					}
@@ -134,7 +127,7 @@ namespace System.Windows.Forms
 				if (m_BlurBorder != value)
 				{
 					m_BlurBorder = value;
-					if (this.DesignMode == false && this.IsHandleCreated)
+					if (this.DesignMode == false && this.IsHandleCreated && m_BlurWin10)
 					{
 						set_BlurWin10();
 					}
@@ -158,6 +151,21 @@ namespace System.Windows.Forms
 			if (m_BlurWin10)
 			{
 				set_BlurWin10();
+			}
+		}
+
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+			if (m_BlurWin10 && ShouldSerializeBlurColor())
+			{
+				Color bg = m_BlurColor.A < 0xff ? m_BlurColor : Color.FromArgb(0xfe, m_BlurColor);
+				using (Brush black = new SolidBrush(Color.Black))
+				using (Brush br = new SolidBrush(bg))
+				{
+					e.Graphics.FillRectangle(black, this.ClientRectangle);
+					e.Graphics.FillRectangle(br, this.ClientRectangle);
+				}
 			}
 		}
 
@@ -185,12 +193,12 @@ namespace System.Windows.Forms
 
 		bool ShouldSerializeBlurColor()
 		{
-			return m_BlurColor != Color.Empty;
+			return m_BlurColor != Color.Transparent;
 		}
 
 		void ResetBlurColor()
 		{
-			m_BlurColor = Color.Empty;
+			m_BlurColor = Color.Transparent;
 		}
 
 		bool ShouldSerializeBlurBorder()
@@ -203,6 +211,7 @@ namespace System.Windows.Forms
 			m_BlurBorder = AccentBorder.None;
 		}
 
+		// WM_DWMCOMPOSITIONCHANGED not sent as of Windows 8 per MSDN.
 		void set_ExtendFrame()
 		{
 			g.MARGINS margins = new g.MARGINS();
@@ -210,6 +219,7 @@ namespace System.Windows.Forms
 			margins.cxRightWidth = m_ExtendFrame.Right;
 			margins.cyTopHeight = m_ExtendFrame.Top;
 			margins.cyBottomHeight = m_ExtendFrame.Bottom;
+			// Catch on platforms without DwmExtendFrameIntoClientArea.
 			try
 			{
 				g.DwmExtendFrameIntoClientArea(this.Handle, ref margins);
@@ -219,6 +229,7 @@ namespace System.Windows.Forms
 
 		/* See also:
 		 * https://stackoverflow.com/questions/32724187/how-do-you-set-the-glass-blend-colour-on-windows-10
+		 * https://stackoverflow.com/questions/32335945/blur-behind-window-with-titlebar-in-windows-10-stopped-working-after-windows-up
 		 * http://undoc.airesoft.co.uk/user32.dll/SetWindowCompositionAttribute.php
 		 * http://vhanla.codigobit.info/2015/07/enable-windows-10-aero-glass-aka-blur.html
 		 * http://www.classicshell.net/forum/viewtopic.php?f=10&t=6444
@@ -246,17 +257,20 @@ namespace System.Windows.Forms
 					policy.AccentFlags |= g.AccentFlags.DrawBottomBorder;
 				}
 				/*
-				 * Using SupportsTransparentBackColor creates flicker on move.
-				 * Using WS_EX_COMPOSITED doesn't avoid flicker on move.
-				 * Using DoubleBuffered negates blur.
+				 * Using SupportsTransparentBackColor with BackColor.A < 0xff flickers on move.
+				 * Using WS_EX_COMPOSITED doesn't avoid flicker above.
+				 * Using DoubleBuffered negates blur above.
 				 * Using gradient doesn't show border.
+				 * 
+				 * Solution:
+				 * - Don't use gradient.
+				 * - Fill transulent blur color in OnPaint().
 				 */
-				if (m_BlurColor != Color.Empty)
-				{
+				/*
 					policy.AccentFlags |= g.AccentFlags.Unknown;
 					policy.GradientColor = Color.FromArgb(m_BlurColor.A, m_BlurColor.B, m_BlurColor.G, m_BlurColor.R).ToArgb();
 					this.BackColor = Color.Black;
-				}
+				*/
 			}
 			else
 			{
@@ -269,6 +283,7 @@ namespace System.Windows.Forms
 			if (data.pData != IntPtr.Zero)
 			{
 				Marshal.StructureToPtr(policy, data.pData, false);
+				// Catch on platforms without SetWindowCompositionAttribute.
 				try
 				{
 					g.SetWindowCompositionAttribute(this.Handle, ref data);
