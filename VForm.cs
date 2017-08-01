@@ -76,9 +76,27 @@ namespace System.Windows.Forms
 			get { return m_BlurColor; }
 		}
 
+		[Category("Appearance")]
+		public AnchorStyles BlurBorder
+		{
+			set
+			{
+				if (m_BlurBorder != value)
+				{
+					m_BlurBorder = value;
+					if (this.DesignMode == false && this.IsHandleCreated)
+					{
+						set_BlurWin10();
+					}
+				}
+			}
+			get { return m_BlurBorder; }
+		}
+
 		Padding m_ExtendFrame;
 		bool m_BlurWin10;
 		Color m_BlurColor;
+		AnchorStyles m_BlurBorder;
 
 		protected override void OnHandleCreated(EventArgs e)
 		{
@@ -125,6 +143,16 @@ namespace System.Windows.Forms
 			m_BlurColor = Color.Empty;
 		}
 
+		bool ShouldSerializeBlurBorder()
+		{
+			return m_BlurBorder != AnchorStyles.None;
+		}
+
+		void ResetBlurBorder()
+		{
+			m_BlurBorder = AnchorStyles.None;
+		}
+
 		void set_ExtendFrame()
 		{
 			g.MARGINS margins = new g.MARGINS();
@@ -151,7 +179,22 @@ namespace System.Windows.Forms
 			if (m_BlurWin10)
 			{
 				policy.AccentState = g.ACCENT_ENABLE_BLURBEHIND;
-				policy.AccentFlags |= g.AccentFlags.DrawAllBorders;
+				if (m_BlurBorder.HasFlag(AnchorStyles.Left))
+				{
+					policy.AccentFlags |= g.AccentFlags.DrawLeftBorder;
+				}
+				if (m_BlurBorder.HasFlag(AnchorStyles.Right))
+				{
+					policy.AccentFlags |= g.AccentFlags.DrawRightBorder;
+				}
+				if (m_BlurBorder.HasFlag(AnchorStyles.Top))
+				{
+					policy.AccentFlags |= g.AccentFlags.DrawTopBorder;
+				}
+				if (m_BlurBorder.HasFlag(AnchorStyles.Bottom))
+				{
+					policy.AccentFlags |= g.AccentFlags.DrawBottomBorder;
+				}
 				//policy.AccentFlags |= g.AccentFlags.Unknown;
 				//policy.GradientColor = Color.FromArgb(0x80, m_BlurColor).ToArgb();
 			}
