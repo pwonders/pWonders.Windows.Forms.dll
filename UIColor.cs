@@ -4,7 +4,7 @@ using Microsoft.Win32;
 
 namespace System.Drawing
 {
-	public static class UIColor
+	public static partial class UIColor
 	{
 		static UIColor()
 		{
@@ -19,8 +19,22 @@ namespace System.Drawing
 				s_IsValid = false;
 			}
 		}
-		
-		// 2017-06-29, https://github.com/File-New-Project/EarTrumpet/blob/master/EarTrumpet/Color%20Types.txt
+
+		public static Color Blend(Color color1, Color color2, int alpha)
+		{
+			if (alpha < 0) alpha = 0;
+			else if (alpha > 255) alpha = 255;
+			int r = color1.R * (255 - alpha) / 255 + color2.R * alpha / 255;
+			int g = color1.G * (255 - alpha) / 255 + color2.G * alpha / 255;
+			int b = color1.B * (255 - alpha) / 255 + color2.B * alpha / 255;
+			return Color.FromArgb(r, g, b);
+		}
+
+		public static Color FromName(Name name)
+		{
+			return FromName(name.ToString());
+		}
+
 		public static Color FromName(string name)
 		{
 			int colorSet = g.GetImmersiveUserColorSetPreference(false, false);
@@ -82,6 +96,11 @@ namespace System.Drawing
 		public static Color Foreground
 		{
 			get { return Color_From_UIColorType(UIColorType.Foreground); }
+		}
+
+		public static Color ShellWithTransparency
+		{
+			get { return Color.FromArgb(0xdd, Blend(FromName(Name.ImmersiveStartBackground), FromName(Name.ImmersiveSystemAccentDark3), 0xdd)); }
 		}
 
 		static bool s_IsValid;

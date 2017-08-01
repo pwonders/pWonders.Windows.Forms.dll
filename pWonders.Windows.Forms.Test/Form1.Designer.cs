@@ -36,7 +36,7 @@
 			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.button1.AutoSize = true;
 			this.button1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.button1.Location = new System.Drawing.Point(240, 0);
+			this.button1.Location = new System.Drawing.Point(604, 0);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(36, 35);
 			this.button1.TabIndex = 0;
@@ -48,10 +48,7 @@
 			// 
 			this.AllowDragClient = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.Black;
-			this.BlurWin10 = true;
-			this.ClientSize = new System.Drawing.Size(276, 236);
+			this.ClientSize = new System.Drawing.Size(640, 480);
 			this.Controls.Add(this.button1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "Form1";

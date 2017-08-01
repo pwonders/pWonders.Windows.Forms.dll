@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace pWonders.Windows.Forms.Test
 {
@@ -8,12 +10,13 @@ namespace pWonders.Windows.Forms.Test
 		public Form1()
 		{
 			InitializeComponent();
-			this.Opacity = 0.9961;
-		}
-
-		protected override void WndProc(ref Message m)
-		{
-			base.WndProc(ref m);
+			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+			SetStyle(ControlStyles.UserPaint, true);
+			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+			//SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+			this.BackColor = UIColor.ShellWithTransparency;
+			this.BlurWin10 = true;
+			this.Opacity = 254 / 255.0;
 		}
 
 		private void button1_Click(object sender, EventArgs e)

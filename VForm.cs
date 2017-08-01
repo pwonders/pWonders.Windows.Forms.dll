@@ -151,10 +151,9 @@ namespace System.Windows.Forms
 			if (m_BlurWin10)
 			{
 				policy.AccentState = g.ACCENT_ENABLE_BLURBEHIND;
-				policy.AccentFlags = g.AccentFlags.Unknown | (g.AccentFlags.DrawAllBorders & ~g.AccentFlags.DrawRightBorder);
-				policy.AccentFlags = (g.AccentFlags.DrawAllBorders & ~g.AccentFlags.DrawRightBorder);
-				policy.GradientColor = Color.FromArgb(0x80, m_BlurColor).ToArgb();
-				//this.BackColor = Color.Black;
+				policy.AccentFlags |= g.AccentFlags.DrawAllBorders;
+				//policy.AccentFlags |= g.AccentFlags.Unknown;
+				//policy.GradientColor = Color.FromArgb(0x80, m_BlurColor).ToArgb();
 			}
 			else
 			{
