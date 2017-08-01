@@ -71,6 +71,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Win32\pWonders.Win32.csproj">
+      <Project>{cc327f64-b393-4df1-9cc1-f2d082270dda}</Project>
+      <Name>pWonders.Win32</Name>
+    </ProjectReference>
     <ProjectReference Include="..\pWonders.Windows.Forms.csproj">
       <Project>{2d900f44-d6bf-4d8a-b098-97b37a9f2803}</Project>
       <Name>pWonders.Windows.Forms</Name>

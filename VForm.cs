@@ -6,6 +6,36 @@ using Microsoft.Win32;
 
 namespace System.Windows.Forms
 {
+	/// <summary>
+	/// Specifies the sides of a window to apply a border to.
+	/// </summary>
+	[Description("Specifies the sides of a window to apply a border to.")]
+	[Flags]
+	public enum AccentBorder
+	{
+		None = 0,
+		/// <summary>
+		/// A border on the left edge of the window.
+		/// </summary>
+		Left = 1,
+		/// <summary>
+		/// A border on the top edge of the window.
+		/// </summary>
+		Top = 2,
+		/// <summary>
+		/// A border on the right edge of the window.
+		/// </summary>
+		Right = 4,
+		/// <summary>
+		/// A border on the bottom edge of the window.
+		/// </summary>
+		Bottom = 8,
+		/// <summary>
+		/// A border on all four sides of the window.
+		/// </summary>
+		All = Left | Top | Right | Bottom,
+	}
+
 	public class VForm : System.Windows.Forms.Form
 	{
 		public VForm()
@@ -17,11 +47,19 @@ namespace System.Windows.Forms
 			SetStyle(ControlStyles.UserPaint, true);
 		}
 
+		/// <summary>
+		/// Indicate the position of the cursor hot spot as if it's in a title bar.
+		/// </summary>
 		[Category("Behavior")]
+		[Description("Indicate the position of the cursor hot spot as if it's in a title bar.")]
 		[DefaultValue(false)]
 		public bool AllowDragClient { set; get; }
 
+		/// <summary>
+		/// Extends the window frame into the client area. Use negative margin values to create the \"sheet of glass\" effect where the client area is rendered as a solid surface with no window border.
+		/// </summary>
 		[Category("Appearance")]
+		[Description("Extends the window frame into the client area. Use negative margin values to create the \"sheet of glass\" effect where the client area is rendered as a solid surface with no window border.")]
 		public Padding ExtendFrame
 		{
 			set
@@ -41,7 +79,11 @@ namespace System.Windows.Forms
 			get { return m_ExtendFrame; }
 		}
 
+		/// <summary>
+		/// Blur window Windows-10 style.
+		/// </summary>
 		[Category("Appearance")]
+		[Description("Blur window Windows-10 style.")]
 		[DefaultValue(false)]
 		public bool BlurWin10
 		{
@@ -59,7 +101,11 @@ namespace System.Windows.Forms
 			get { return m_BlurWin10; }
 		}
 
+		/// <summary>
+		/// Blur window Windows-10 style with specified gradient overlay.
+		/// </summary>
 		[Category("Appearance")]
+		[Description("Blur window Windows-10 style with specified gradient overlay.")]
 		public Color BlurColor
 		{
 			set
@@ -76,8 +122,12 @@ namespace System.Windows.Forms
 			get { return m_BlurColor; }
 		}
 
+		/// <summary>
+		/// Blur window Windows-10 style with specified border.
+		/// </summary>
 		[Category("Appearance")]
-		public AnchorStyles BlurBorder
+		[Description("Blur window Windows-10 style with specified border.")]
+		public AccentBorder BlurBorder
 		{
 			set
 			{
@@ -96,7 +146,7 @@ namespace System.Windows.Forms
 		Padding m_ExtendFrame;
 		bool m_BlurWin10;
 		Color m_BlurColor;
-		AnchorStyles m_BlurBorder;
+		AccentBorder m_BlurBorder;
 
 		protected override void OnHandleCreated(EventArgs e)
 		{
@@ -145,12 +195,12 @@ namespace System.Windows.Forms
 
 		bool ShouldSerializeBlurBorder()
 		{
-			return m_BlurBorder != AnchorStyles.None;
+			return m_BlurBorder != AccentBorder.None;
 		}
 
 		void ResetBlurBorder()
 		{
-			m_BlurBorder = AnchorStyles.None;
+			m_BlurBorder = AccentBorder.None;
 		}
 
 		void set_ExtendFrame()
@@ -179,24 +229,34 @@ namespace System.Windows.Forms
 			if (m_BlurWin10)
 			{
 				policy.AccentState = g.ACCENT_ENABLE_BLURBEHIND;
-				if (m_BlurBorder.HasFlag(AnchorStyles.Left))
+				if (m_BlurBorder.HasFlag(AccentBorder.Left))
 				{
 					policy.AccentFlags |= g.AccentFlags.DrawLeftBorder;
 				}
-				if (m_BlurBorder.HasFlag(AnchorStyles.Right))
+				if (m_BlurBorder.HasFlag(AccentBorder.Right))
 				{
 					policy.AccentFlags |= g.AccentFlags.DrawRightBorder;
 				}
-				if (m_BlurBorder.HasFlag(AnchorStyles.Top))
+				if (m_BlurBorder.HasFlag(AccentBorder.Top))
 				{
 					policy.AccentFlags |= g.AccentFlags.DrawTopBorder;
 				}
-				if (m_BlurBorder.HasFlag(AnchorStyles.Bottom))
+				if (m_BlurBorder.HasFlag(AccentBorder.Bottom))
 				{
 					policy.AccentFlags |= g.AccentFlags.DrawBottomBorder;
 				}
-				//policy.AccentFlags |= g.AccentFlags.Unknown;
-				//policy.GradientColor = Color.FromArgb(0x80, m_BlurColor).ToArgb();
+				/*
+				 * Using SupportsTransparentBackColor creates flicker on move.
+				 * Using WS_EX_COMPOSITED doesn't avoid flicker on move.
+				 * Using DoubleBuffered negates blur.
+				 * Using gradient doesn't show border.
+				 */
+				if (m_BlurColor != Color.Empty)
+				{
+					policy.AccentFlags |= g.AccentFlags.Unknown;
+					policy.GradientColor = Color.FromArgb(m_BlurColor.A, m_BlurColor.B, m_BlurColor.G, m_BlurColor.R).ToArgb();
+					this.BackColor = Color.Black;
+				}
 			}
 			else
 			{

@@ -10,11 +10,10 @@ namespace pWonders.Windows.Forms.Test
 		public Form1()
 		{
 			InitializeComponent();
-			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-			SetStyle(ControlStyles.UserPaint, true);
-			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-			//SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-			this.BackColor = UIColor.ShellWithTransparency;
+			this.BackColor = Color.FromArgb(0xff, UIColor.ShellWithTransparency);
+			this.BackColor = Color.FromArgb(0xff, Color.Black);
+			this.BlurColor = UIColor.ShellWithTransparency;
+			this.BlurBorder = AccentBorder.All;
 			this.BlurWin10 = true;
 			this.Opacity = 254 / 255.0;
 		}
