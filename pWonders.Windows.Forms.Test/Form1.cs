@@ -14,20 +14,68 @@ namespace pWonders.Windows.Forms.Test
 			bool frame = false;
 			if (frame)
 			{
-				this.FormBorderStyle = FormBorderStyle.FixedSingle;
-				this.MinimizeBox = true;
-				this.MaximizeBox = false;
+				this.FormBorderStyle = FormBorderStyle.Sizable;
 			}
 
-			this.BlurBorder = AccentBorder.Left;
+			//this.DoubleBuffered = true;
+			this.BlurBorder = AccentBorder.All;
 			this.BlurColor = UIColor.ShellWithTransparency;
 			this.BlurWin10 = true;
-			this.Opacity = 254 / 255.0;
+			//this.Opacity = 254 / 255.0;
+
+			tmrv = new Timer();
+			tmrv.Interval = 1000;
+			tmrv.Tick += tmrv_Tick;
+
+			tmrs = new Timer();
+			tmrs.Interval = 100;
+			tmrs.Tick += tmrs_Tick;
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		Timer tmrv, tmrs;
+
+		private void btnClose_Click(object sender, EventArgs e)
 		{
 			this.Close();
+		}
+
+		private void btnToggleBlur_Click(object sender, EventArgs e)
+		{
+			this.BlurWin10 = !this.BlurWin10;
+			if (this.BlurWin10 == false)
+			{
+				this.BackColor = SystemColors.Control;
+			}
+		}
+
+		private void btnToggleVisible_Click(object sender, EventArgs e)
+		{
+			this.Width = 0;
+			this.Visible = false;
+			tmrv.Enabled = true;
+		}
+
+		private void tmrv_Tick(object sender, EventArgs e)
+		{
+			tmrv.Enabled = false;
+			this.Visible = true;
+			this.Width = 640;
+		}
+
+		private void btnToggleSize_Click(object sender, EventArgs e)
+		{
+			base.OnResizeBegin(e);
+			tmrs.Enabled = true;
+		}
+
+		private void tmrs_Tick(object sender, EventArgs e)
+		{
+			this.Width += 32;
+			if (this.Width > 1000)
+			{
+				tmrs.Enabled = false;
+				base.OnResizeEnd(e);
+			}
 		}
 	}
 }

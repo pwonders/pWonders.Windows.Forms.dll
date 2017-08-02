@@ -28,27 +28,73 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.button1 = new System.Windows.Forms.Button();
+			this.btnClose = new System.Windows.Forms.Button();
+			this.btnToggleBlur = new System.Windows.Forms.Button();
+			this.btnToggleVisible = new System.Windows.Forms.Button();
+			this.btnToggleSIze = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
-			// button1
+			// btnClose
 			// 
-			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.AutoSize = true;
-			this.button1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.button1.Location = new System.Drawing.Point(604, 0);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(36, 35);
-			this.button1.TabIndex = 0;
-			this.button1.Text = "X";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnClose.AutoSize = true;
+			this.btnClose.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnClose.Location = new System.Drawing.Point(610, 0);
+			this.btnClose.Name = "btnClose";
+			this.btnClose.Size = new System.Drawing.Size(30, 34);
+			this.btnClose.TabIndex = 0;
+			this.btnClose.Text = "X";
+			this.btnClose.UseCompatibleTextRendering = true;
+			this.btnClose.UseVisualStyleBackColor = true;
+			this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+			// 
+			// btnToggleBlur
+			// 
+			this.btnToggleBlur.AutoSize = true;
+			this.btnToggleBlur.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnToggleBlur.Location = new System.Drawing.Point(0, 0);
+			this.btnToggleBlur.Name = "btnToggleBlur";
+			this.btnToggleBlur.Size = new System.Drawing.Size(117, 34);
+			this.btnToggleBlur.TabIndex = 1;
+			this.btnToggleBlur.Text = "Toggle Blur";
+			this.btnToggleBlur.UseCompatibleTextRendering = true;
+			this.btnToggleBlur.UseVisualStyleBackColor = true;
+			this.btnToggleBlur.Click += new System.EventHandler(this.btnToggleBlur_Click);
+			// 
+			// btnToggleVisible
+			// 
+			this.btnToggleVisible.AutoSize = true;
+			this.btnToggleVisible.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnToggleVisible.Location = new System.Drawing.Point(0, 41);
+			this.btnToggleVisible.Name = "btnToggleVisible";
+			this.btnToggleVisible.Size = new System.Drawing.Size(140, 34);
+			this.btnToggleVisible.TabIndex = 2;
+			this.btnToggleVisible.Text = "Toggle Visible";
+			this.btnToggleVisible.UseCompatibleTextRendering = true;
+			this.btnToggleVisible.UseVisualStyleBackColor = true;
+			this.btnToggleVisible.Click += new System.EventHandler(this.btnToggleVisible_Click);
+			// 
+			// btnToggleSIze
+			// 
+			this.btnToggleSIze.AutoSize = true;
+			this.btnToggleSIze.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnToggleSIze.Location = new System.Drawing.Point(0, 82);
+			this.btnToggleSIze.Name = "btnToggleSIze";
+			this.btnToggleSIze.Size = new System.Drawing.Size(120, 34);
+			this.btnToggleSIze.TabIndex = 3;
+			this.btnToggleSIze.Text = "Toggle Size";
+			this.btnToggleSIze.UseCompatibleTextRendering = true;
+			this.btnToggleSIze.UseVisualStyleBackColor = true;
+			this.btnToggleSIze.Click += new System.EventHandler(this.btnToggleSize_Click);
 			// 
 			// Form1
 			// 
 			this.AllowDragClient = true;
 			this.ClientSize = new System.Drawing.Size(640, 480);
-			this.Controls.Add(this.button1);
+			this.Controls.Add(this.btnToggleSIze);
+			this.Controls.Add(this.btnToggleVisible);
+			this.Controls.Add(this.btnToggleBlur);
+			this.Controls.Add(this.btnClose);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "Form1";
 			this.Text = "Form1";
@@ -59,7 +105,10 @@
 
 		#endregion
 
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button btnClose;
+		private System.Windows.Forms.Button btnToggleBlur;
+		private System.Windows.Forms.Button btnToggleVisible;
+		private System.Windows.Forms.Button btnToggleSIze;
 	}
 }
 
