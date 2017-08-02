@@ -39,9 +39,9 @@
 			this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnClose.AutoSize = true;
 			this.btnClose.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnClose.Location = new System.Drawing.Point(610, 0);
+			this.btnClose.Location = new System.Drawing.Point(608, 0);
 			this.btnClose.Name = "btnClose";
-			this.btnClose.Size = new System.Drawing.Size(30, 34);
+			this.btnClose.Size = new System.Drawing.Size(32, 36);
 			this.btnClose.TabIndex = 0;
 			this.btnClose.Text = "X";
 			this.btnClose.UseCompatibleTextRendering = true;
@@ -54,7 +54,7 @@
 			this.btnToggleBlur.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnToggleBlur.Location = new System.Drawing.Point(0, 0);
 			this.btnToggleBlur.Name = "btnToggleBlur";
-			this.btnToggleBlur.Size = new System.Drawing.Size(117, 34);
+			this.btnToggleBlur.Size = new System.Drawing.Size(175, 36);
 			this.btnToggleBlur.TabIndex = 1;
 			this.btnToggleBlur.Text = "Toggle Blur";
 			this.btnToggleBlur.UseCompatibleTextRendering = true;
@@ -67,7 +67,7 @@
 			this.btnToggleVisible.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnToggleVisible.Location = new System.Drawing.Point(0, 41);
 			this.btnToggleVisible.Name = "btnToggleVisible";
-			this.btnToggleVisible.Size = new System.Drawing.Size(140, 34);
+			this.btnToggleVisible.Size = new System.Drawing.Size(218, 36);
 			this.btnToggleVisible.TabIndex = 2;
 			this.btnToggleVisible.Text = "Toggle Visible";
 			this.btnToggleVisible.UseCompatibleTextRendering = true;
@@ -80,7 +80,7 @@
 			this.btnToggleSIze.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnToggleSIze.Location = new System.Drawing.Point(0, 82);
 			this.btnToggleSIze.Name = "btnToggleSIze";
-			this.btnToggleSIze.Size = new System.Drawing.Size(120, 34);
+			this.btnToggleSIze.Size = new System.Drawing.Size(175, 36);
 			this.btnToggleSIze.TabIndex = 3;
 			this.btnToggleSIze.Text = "Toggle Size";
 			this.btnToggleSIze.UseCompatibleTextRendering = true;
@@ -95,6 +95,7 @@
 			this.Controls.Add(this.btnToggleVisible);
 			this.Controls.Add(this.btnToggleBlur);
 			this.Controls.Add(this.btnClose);
+			this.Font = new System.Drawing.Font("Lucida Console", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "Form1";
 			this.Text = "Form1";
