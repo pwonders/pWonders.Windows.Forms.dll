@@ -8,8 +8,13 @@ namespace System.Drawing
 	{
 		static UIColor()
 		{
-			s_Settings = new UISettings();
-			//s_Settings.ColorValuesChanged += UISettings_ColorValuesChanged;
+			try
+			{
+				s_Settings = new UISettings();
+				s_hasSettings = true;
+				//s_Settings.ColorValuesChanged += UISettings_ColorValuesChanged;
+			}
+			catch { }
 		}
 
 		public static Color Blend(Color color1, Color color2, int alpha)
@@ -93,10 +98,11 @@ namespace System.Drawing
 
 		public static Color ShellWithTransparency
 		{
-			get { return Color.FromArgb(0xcc, Blend(FromName(Name.ImmersiveStartBackground), FromName(Name.ImmersiveSystemAccentDark2), 0xcc)); }
+			get { return Color.FromArgb(0xcc, Blend(Shell, FromName(Name.ImmersiveSystemAccentDark2), 0xcc)); }
 		}
-		
+
 		static UISettings s_Settings;
+		static bool s_hasSettings;
 
 		// Doesn't work.
 		// https://social.msdn.microsoft.com/Forums/en-US/2a1e3d21-17a1-47d1-9783-6f4e97900f96/uisettingscolorvalueschanged?forum=wpdevelop, 2017-08-01.
@@ -107,7 +113,37 @@ namespace System.Drawing
 
 		static Color Color_from_UIColorType(UIColorType desiredColor)
 		{
-			return Color_from_UIColor(s_Settings.GetColorValue(desiredColor));
+			if (s_hasSettings)
+			{
+				try
+				{
+					return Color_from_UIColor(s_Settings.GetColorValue(desiredColor));
+				}
+				catch { }
+			}
+			switch (desiredColor)
+			{
+			case UIColorType.Accent:
+				return SystemColors.Highlight;
+			case UIColorType.AccentDark1:
+				return Blend(SystemColors.Highlight, Color.Black, 0x3f);
+			case UIColorType.AccentDark2:
+				return Blend(SystemColors.Highlight, Color.Black, 0x7f);
+			case UIColorType.AccentDark3:
+				return Blend(SystemColors.Highlight, Color.Black, 0xbf);
+			case UIColorType.AccentLight1:
+				return Blend(SystemColors.Highlight, Color.White, 0x3f);
+			case UIColorType.AccentLight2:
+				return Blend(SystemColors.Highlight, Color.White, 0x7f);
+			case UIColorType.AccentLight3:
+				return Blend(SystemColors.Highlight, Color.White, 0xbf);
+			case UIColorType.Background:
+				return SystemColors.Window;
+			case UIColorType.Foreground:
+				return SystemColors.WindowText;
+			default:
+				return Color.Empty;
+			}
 		}
 
 		static Color Color_from_UIColor(global::Windows.UI.Color color)

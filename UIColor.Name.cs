@@ -3,6 +3,8 @@
 	public static partial class UIColor
 	{
 		// https://github.com/File-New-Project/EarTrumpet/blob/master/EarTrumpet/Color%20Types.txt, 2017-07-31.
+		// https://github.com/TranslucentTB/Tools, 2017-08-01.
+		// https://www.quppa.net/blog/2013/01/02/retrieving-windows-8-theme-colours/, 2017-08-02.
 		public enum Name
 		{
 			ImmersiveApplicationBackground,
