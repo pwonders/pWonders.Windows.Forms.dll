@@ -36,9 +36,9 @@ namespace System.Drawing
 		{
 			try
 			{
-				int colorSet = g.GetImmersiveUserColorSetPreference(false, false);
-				int colorType = g.GetImmersiveColorTypeFromName(name);
-				int abgr = g.GetImmersiveColorFromColorSetEx(colorSet, colorType, false, 0);
+				int colorSet = API.GetImmersiveUserColorSetPreference(false, false);
+				int colorType = API.GetImmersiveColorTypeFromName(name);
+				int abgr = API.GetImmersiveColorFromColorSetEx(colorSet, colorType, false, 0);
 				return Color_from_abgr(abgr);
 			}
 			catch { }

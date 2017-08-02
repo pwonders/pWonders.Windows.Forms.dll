@@ -175,12 +175,14 @@ namespace System.Windows.Forms
 		protected override void WndProc(ref Message m)
 		{
 			base.WndProc(ref m);
-			if (this.AllowDragClient)
+			switch (m.Msg)
 			{
-				if (m.Msg == g.WM_NCHITTEST && m.Result == new IntPtr(g.HTCLIENT))
+			case API.WM_NCHITTEST:
+				if (this.AllowDragClient && m.Result == new IntPtr(API.HTCLIENT))
 				{
-					m.Result = new IntPtr(g.HTCAPTION);
+					m.Result = new IntPtr(API.HTCAPTION);
 				}
+				break;
 			}
 		}
 
@@ -217,7 +219,7 @@ namespace System.Windows.Forms
 		// WM_DWMCOMPOSITIONCHANGED not sent as of Windows 8 per MSDN.
 		void set_ExtendFrame()
 		{
-			g.MARGINS margins = new g.MARGINS();
+			API.MARGINS margins = new API.MARGINS();
 			margins.cxLeftWidth = m_ExtendFrame.Left;
 			margins.cxRightWidth = m_ExtendFrame.Right;
 			margins.cyTopHeight = m_ExtendFrame.Top;
@@ -225,7 +227,7 @@ namespace System.Windows.Forms
 			// Catch on platforms without DwmExtendFrameIntoClientArea.
 			try
 			{
-				g.DwmExtendFrameIntoClientArea(this.Handle, ref margins);
+				API.DwmExtendFrameIntoClientArea(this.Handle, ref margins);
 			}
 			catch { }
 		}
@@ -239,25 +241,25 @@ namespace System.Windows.Forms
 		 */
 		void set_BlurWin10()
 		{
-			g.AccentPolicy policy = new g.AccentPolicy();
+			API.AccentPolicy policy = new API.AccentPolicy();
 			if (m_BlurWin10)
 			{
-				policy.AccentState = g.ACCENT_ENABLE_BLURBEHIND;
+				policy.AccentState = API.ACCENT_ENABLE_BLURBEHIND;
 				if (m_BlurBorder.HasFlag(AccentBorder.Left))
 				{
-					policy.AccentFlags |= g.AccentFlags.DrawLeftBorder;
+					policy.AccentFlags |= API.AccentFlags.DrawLeftBorder;
 				}
 				if (m_BlurBorder.HasFlag(AccentBorder.Right))
 				{
-					policy.AccentFlags |= g.AccentFlags.DrawRightBorder;
+					policy.AccentFlags |= API.AccentFlags.DrawRightBorder;
 				}
 				if (m_BlurBorder.HasFlag(AccentBorder.Top))
 				{
-					policy.AccentFlags |= g.AccentFlags.DrawTopBorder;
+					policy.AccentFlags |= API.AccentFlags.DrawTopBorder;
 				}
 				if (m_BlurBorder.HasFlag(AccentBorder.Bottom))
 				{
-					policy.AccentFlags |= g.AccentFlags.DrawBottomBorder;
+					policy.AccentFlags |= API.AccentFlags.DrawBottomBorder;
 				}
 				/*
 				 * Using SupportsTransparentBackColor with BackColor.A < 0xff flickers on move.
@@ -268,17 +270,17 @@ namespace System.Windows.Forms
 				 */
 				if (m_BlurUseGradient)
 				{
-					policy.AccentFlags |= g.AccentFlags.Unknown;
+					policy.AccentFlags |= API.AccentFlags.Unknown;
 					policy.GradientColor = Color.FromArgb(m_BlurColor.A, m_BlurColor.B, m_BlurColor.G, m_BlurColor.R).ToArgb();
 				}
 				this.BackColor = Color.Black;
 			}
 			else
 			{
-				policy.AccentState = g.ACCENT_DISABLED;
+				policy.AccentState = API.ACCENT_DISABLED;
 			}
-			g.WINCOMPATTRDATA data = new g.WINCOMPATTRDATA();
-			data.attribute = g.WCA_ACCENT_POLICY;
+			API.WINCOMPATTRDATA data = new API.WINCOMPATTRDATA();
+			data.attribute = API.WCA_ACCENT_POLICY;
 			data.dataSize = Marshal.SizeOf(policy);
 			data.pData = Marshal.AllocHGlobal(data.dataSize);
 			if (data.pData != IntPtr.Zero)
@@ -287,7 +289,7 @@ namespace System.Windows.Forms
 				// Catch on platforms without SetWindowCompositionAttribute.
 				try
 				{
-					g.SetWindowCompositionAttribute(this.Handle, ref data);
+					API.SetWindowCompositionAttribute(this.Handle, ref data);
 				}
 				catch { }
 				Marshal.FreeHGlobal(data.pData);
