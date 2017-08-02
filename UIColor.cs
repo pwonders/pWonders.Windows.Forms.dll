@@ -34,10 +34,15 @@ namespace System.Drawing
 
 		public static Color FromName(string name)
 		{
-			int colorSet = g.GetImmersiveUserColorSetPreference(false, false);
-			int colorType = g.GetImmersiveColorTypeFromName(name);
-			int abgr = g.GetImmersiveColorFromColorSetEx(colorSet, colorType, false, 0);
-			return Color_from_abgr(abgr);
+			try
+			{
+				int colorSet = g.GetImmersiveUserColorSetPreference(false, false);
+				int colorType = g.GetImmersiveColorTypeFromName(name);
+				int abgr = g.GetImmersiveColorFromColorSetEx(colorSet, colorType, false, 0);
+				return Color_from_abgr(abgr);
+			}
+			catch { }
+			return Color.Empty;
 		}
 
 		public static Color Accent
