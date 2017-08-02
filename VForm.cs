@@ -88,6 +88,7 @@ namespace System.Windows.Forms
 					if (this.DesignMode == false && this.IsHandleCreated)
 					{
 						set_BlurWin10();
+						this.Invalidate();
 					}
 				}
 			}
@@ -140,6 +141,7 @@ namespace System.Windows.Forms
 		bool m_BlurWin10;
 		Color m_BlurColor;
 		AccentBorder m_BlurBorder;
+		bool m_BlurUseGradient = true;
 
 		protected override void OnHandleCreated(EventArgs e)
 		{
@@ -154,17 +156,18 @@ namespace System.Windows.Forms
 			}
 		}
 
-		protected override void OnPaint(PaintEventArgs e)
+		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			base.OnPaint(e);
-			if (m_BlurWin10 && ShouldSerializeBlurColor())
+			base.OnPaintBackground(e);
+			if (m_BlurUseGradient == false)
 			{
-				Color bg = m_BlurColor.A < 0xff ? m_BlurColor : Color.FromArgb(0xfe, m_BlurColor);
-				using (Brush black = new SolidBrush(Color.Black))
-				using (Brush br = new SolidBrush(bg))
+				if (m_BlurWin10 && ShouldSerializeBlurColor())
 				{
-					e.Graphics.FillRectangle(black, this.ClientRectangle);
-					e.Graphics.FillRectangle(br, this.ClientRectangle);
+					Color bg = m_BlurColor.A < 0xff ? m_BlurColor : Color.FromArgb(0xfe, m_BlurColor);
+					using (Brush br = new SolidBrush(bg))
+					{
+						e.Graphics.FillRectangle(br, e.ClipRectangle);
+					}
 				}
 			}
 		}
@@ -261,16 +264,14 @@ namespace System.Windows.Forms
 				 * Using WS_EX_COMPOSITED doesn't avoid flicker above.
 				 * Using DoubleBuffered negates blur above.
 				 * Using gradient doesn't show border.
-				 * 
-				 * Solution:
-				 * - Don't use gradient.
-				 * - Fill transulent blur color in OnPaint().
+				 * Not using gradient, and filling in OnPaint flickers on resize.
 				 */
-				/*
+				if (m_BlurUseGradient)
+				{
 					policy.AccentFlags |= g.AccentFlags.Unknown;
 					policy.GradientColor = Color.FromArgb(m_BlurColor.A, m_BlurColor.B, m_BlurColor.G, m_BlurColor.R).ToArgb();
-					this.BackColor = Color.Black;
-				*/
+				}
+				this.BackColor = Color.Black;
 			}
 			else
 			{
