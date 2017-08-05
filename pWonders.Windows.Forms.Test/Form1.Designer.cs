@@ -32,6 +32,9 @@
 			this.btnToggleBlur = new System.Windows.Forms.Button();
 			this.btnToggleVisible = new System.Windows.Forms.Button();
 			this.btnToggleSIze = new System.Windows.Forms.Button();
+			this.btnTogglePos = new System.Windows.Forms.Button();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.tableLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnClose
@@ -39,9 +42,9 @@
 			this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnClose.AutoSize = true;
 			this.btnClose.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnClose.Location = new System.Drawing.Point(608, 0);
+			this.btnClose.Location = new System.Drawing.Point(610, 0);
 			this.btnClose.Name = "btnClose";
-			this.btnClose.Size = new System.Drawing.Size(32, 36);
+			this.btnClose.Size = new System.Drawing.Size(30, 34);
 			this.btnClose.TabIndex = 0;
 			this.btnClose.Text = "X";
 			this.btnClose.UseCompatibleTextRendering = true;
@@ -52,9 +55,10 @@
 			// 
 			this.btnToggleBlur.AutoSize = true;
 			this.btnToggleBlur.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnToggleBlur.Location = new System.Drawing.Point(0, 0);
+			this.btnToggleBlur.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.btnToggleBlur.Location = new System.Drawing.Point(3, 3);
 			this.btnToggleBlur.Name = "btnToggleBlur";
-			this.btnToggleBlur.Size = new System.Drawing.Size(175, 36);
+			this.btnToggleBlur.Size = new System.Drawing.Size(140, 34);
 			this.btnToggleBlur.TabIndex = 1;
 			this.btnToggleBlur.Text = "Toggle Blur";
 			this.btnToggleBlur.UseCompatibleTextRendering = true;
@@ -65,9 +69,10 @@
 			// 
 			this.btnToggleVisible.AutoSize = true;
 			this.btnToggleVisible.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnToggleVisible.Location = new System.Drawing.Point(0, 41);
+			this.btnToggleVisible.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.btnToggleVisible.Location = new System.Drawing.Point(3, 43);
 			this.btnToggleVisible.Name = "btnToggleVisible";
-			this.btnToggleVisible.Size = new System.Drawing.Size(218, 36);
+			this.btnToggleVisible.Size = new System.Drawing.Size(140, 34);
 			this.btnToggleVisible.TabIndex = 2;
 			this.btnToggleVisible.Text = "Toggle Visible";
 			this.btnToggleVisible.UseCompatibleTextRendering = true;
@@ -78,27 +83,65 @@
 			// 
 			this.btnToggleSIze.AutoSize = true;
 			this.btnToggleSIze.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnToggleSIze.Location = new System.Drawing.Point(0, 82);
+			this.btnToggleSIze.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.btnToggleSIze.Location = new System.Drawing.Point(3, 83);
 			this.btnToggleSIze.Name = "btnToggleSIze";
-			this.btnToggleSIze.Size = new System.Drawing.Size(175, 36);
+			this.btnToggleSIze.Size = new System.Drawing.Size(140, 34);
 			this.btnToggleSIze.TabIndex = 3;
 			this.btnToggleSIze.Text = "Toggle Size";
 			this.btnToggleSIze.UseCompatibleTextRendering = true;
 			this.btnToggleSIze.UseVisualStyleBackColor = true;
 			this.btnToggleSIze.Click += new System.EventHandler(this.btnToggleSize_Click);
 			// 
+			// btnTogglePos
+			// 
+			this.btnTogglePos.AutoSize = true;
+			this.btnTogglePos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnTogglePos.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.btnTogglePos.Location = new System.Drawing.Point(3, 123);
+			this.btnTogglePos.Name = "btnTogglePos";
+			this.btnTogglePos.Size = new System.Drawing.Size(140, 34);
+			this.btnTogglePos.TabIndex = 4;
+			this.btnTogglePos.Text = "Toggle Pos";
+			this.btnTogglePos.UseCompatibleTextRendering = true;
+			this.btnTogglePos.UseVisualStyleBackColor = true;
+			this.btnTogglePos.Click += new System.EventHandler(this.btnTogglePos_Click);
+			// 
+			// tableLayoutPanel1
+			// 
+			this.tableLayoutPanel1.AutoSize = true;
+			this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+			this.tableLayoutPanel1.ColumnCount = 1;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.Controls.Add(this.btnTogglePos, 0, 3);
+			this.tableLayoutPanel1.Controls.Add(this.btnToggleBlur, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.btnToggleSIze, 0, 2);
+			this.tableLayoutPanel1.Controls.Add(this.btnToggleVisible, 0, 1);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 4;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(146, 160);
+			this.tableLayoutPanel1.TabIndex = 5;
+			// 
 			// Form1
 			// 
 			this.AllowDragClient = true;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(168F, 168F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.ClientSize = new System.Drawing.Size(640, 480);
-			this.Controls.Add(this.btnToggleSIze);
-			this.Controls.Add(this.btnToggleVisible);
-			this.Controls.Add(this.btnToggleBlur);
+			this.Controls.Add(this.tableLayoutPanel1);
 			this.Controls.Add(this.btnClose);
-			this.Font = new System.Drawing.Font("Lucida Console", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "Form1";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Form1";
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanel1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -110,6 +153,8 @@
 		private System.Windows.Forms.Button btnToggleBlur;
 		private System.Windows.Forms.Button btnToggleVisible;
 		private System.Windows.Forms.Button btnToggleSIze;
+		private System.Windows.Forms.Button btnTogglePos;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 	}
 }
 

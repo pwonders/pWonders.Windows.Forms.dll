@@ -24,7 +24,7 @@ namespace pWonders.Windows.Forms.Test
 			this.BlurBorder = AccentBorder.All;
 			this.BlurColor = UIColor.ShellWithTransparency;
 			this.BlurWin10 = true;
-			//this.Opacity = 254 / 255.0;
+			this.Opacity = 254 / 255.0;
 
 			tmrv = new Timer();
 			tmrv.Interval = 1000;
@@ -33,13 +33,23 @@ namespace pWonders.Windows.Forms.Test
 			tmrs = new Timer();
 			tmrs.Interval = 100;
 			tmrs.Tick += tmrs_Tick;
+
+			tmrp = new Timer();
+			tmrp.Interval = 100;
+			tmrp.Tick += tmrp_Tick;
+
+			//btnTogglePos.PerformClick();
+			btnTogglePos_Click(btnTogglePos, EventArgs.Empty);
 		}
 
-		Timer tmrv, tmrs;
+		Timer tmrv, tmrs, tmrp;
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
+
+			return;
+			// Ugly text when using gradient color to blur.
 
 			Graphics g = e.Graphics;
 			g.CompositingQuality = CompositingQuality.HighQuality;
@@ -50,15 +60,15 @@ namespace pWonders.Windows.Forms.Test
 			g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
 
 			string s = "The quick brown fox";
-			PointF ptf = new PointF(100, 10);
-			Point pt = new Point((int) ptf.X, (int) ptf.Y);
-			Rectangle bounds = new Rectangle(pt, new Size(300, 100));
+			PointF ptf = new PointF(160, 16);
 			Color c = Color.FromArgb(0xfe, Color.White);
 			using (Font font = new Font(this.Font.FontFamily, 20))
 			using (SolidBrush br = new SolidBrush(c))
 			{
-				for (int i = 0; i < 4; i++, ptf.Y += 100, pt.Y += 100, bounds.Y += 100)
+				for (int i = 0; i < 4; i++, ptf.Y += 64)
 				{
+					Point pt = new Point((int) ptf.X, (int) ptf.Y);
+					Rectangle bounds = new Rectangle(pt, new Size(300, 100));
 					switch (i)
 					{
 					case 0:
@@ -131,7 +141,7 @@ namespace pWonders.Windows.Forms.Test
 		{
 			tmrv.Enabled = false;
 			this.Visible = true;
-			this.Width = 640;
+			//this.SetBounds(0, 0, 640, 480, BoundsSpecified.Size);
 		}
 
 		private void btnToggleSize_Click(object sender, EventArgs e)
@@ -147,6 +157,24 @@ namespace pWonders.Windows.Forms.Test
 			{
 				tmrs.Enabled = false;
 				base.OnResizeEnd(e);
+			}
+		}
+
+		private void btnTogglePos_Click(object sender, EventArgs e)
+		{
+			Rectangle r = Screen.PrimaryScreen.WorkingArea;
+			r.X = r.Right;
+			r.Width = 630;
+			this.Bounds = r;
+			tmrp.Enabled = true;
+		}
+
+		private void tmrp_Tick(object sender, EventArgs e)
+		{
+			this.Left -= 32;
+			if (this.Right <= Screen.PrimaryScreen.WorkingArea.Right)
+			{
+				tmrp.Enabled = false;
 			}
 		}
 	}
