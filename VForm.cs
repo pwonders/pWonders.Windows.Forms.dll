@@ -141,7 +141,7 @@ namespace System.Windows.Forms
 		bool m_BlurWin10;
 		Color m_BlurColor;
 		AccentBorder m_BlurBorder;
-		bool m_BlurUseGradient = true;
+		bool m_BlurUseGradient = false;
 
 		protected override void OnHandleCreated(EventArgs e)
 		{
@@ -262,18 +262,19 @@ namespace System.Windows.Forms
 					policy.AccentFlags |= API.AccentFlags.DrawBottomBorder;
 				}
 				/*
-				 * Using SupportsTransparentBackColor with BackColor.A < 0xff flickers on move.
+				 * Using SupportsTransparentBackColor with BackColor.A < 0xff flickers on move (and possibly resize).
 				 * Using WS_EX_COMPOSITED doesn't avoid flicker above.
-				 * Using DoubleBuffered negates blur above.
-				 * Using gradient doesn't show border.
-				 * Not using gradient, and filling in OnPaint flickers on resize.
+				 * Using DoubleBuffered negates blur above, sometimes.
+				 * Using Black BackColor and filling in OnPaint flickers on move and resize.
+				 * Using Opacity (layered) only flickers on resize, but loses blur color when visibility is toggled.
+				 * Using gradient doesn't show border, and text is ugly.
 				 */
 				if (m_BlurUseGradient)
 				{
 					policy.AccentFlags |= API.AccentFlags.Unknown;
 					policy.GradientColor = Color.FromArgb(m_BlurColor.A, m_BlurColor.B, m_BlurColor.G, m_BlurColor.R).ToArgb();
 				}
-				this.BackColor = Color.Black;
+				this.BackColor = Color.FromArgb(0xff, 0, 0, 0);
 			}
 			else
 			{
