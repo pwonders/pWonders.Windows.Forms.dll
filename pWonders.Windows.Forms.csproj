@@ -53,6 +53,8 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="VPropertyGrid.cs" />
+    <Compile Include="VTableLayoutPanel.cs" />
+    <Compile Include="VTextBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Win32\pWonders.Win32.csproj">
