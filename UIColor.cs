@@ -17,16 +17,6 @@ namespace System.Drawing
 			catch { }
 		}
 
-		public static Color Blend(Color color1, Color color2, int alpha)
-		{
-			if (alpha < 0) alpha = 0;
-			else if (alpha > 255) alpha = 255;
-			int r = color1.R * (255 - alpha) / 255 + color2.R * alpha / 255;
-			int g = color1.G * (255 - alpha) / 255 + color2.G * alpha / 255;
-			int b = color1.B * (255 - alpha) / 255 + color2.B * alpha / 255;
-			return Color.FromArgb(r, g, b);
-		}
-
 		public static Color FromName(Name name)
 		{
 			return FromName(name.ToString());
@@ -39,7 +29,7 @@ namespace System.Drawing
 				int colorSet = API.GetImmersiveUserColorSetPreference(false, false);
 				int colorType = API.GetImmersiveColorTypeFromName(name);
 				int abgr = API.GetImmersiveColorFromColorSetEx(colorSet, colorType, false, 0);
-				return Color_from_abgr(abgr);
+				return XColor.FromAbgr(abgr);
 			}
 			catch { }
 			return Color.Empty;
@@ -103,7 +93,7 @@ namespace System.Drawing
 
 		public static Color ShellWithTransparency
 		{
-			get { return Color.FromArgb(0xcc, Blend(Shell, FromName(Name.ImmersiveSystemAccentDark2), 0xcc)); }
+			get { return Color.FromArgb(0xcc, XColor.Blend(Shell, FromName(Name.ImmersiveSystemAccentDark2), 0xcc)); }
 		}
 
 		static UISettings s_Settings;
@@ -131,17 +121,17 @@ namespace System.Drawing
 			case UIColorType.Accent:
 				return SystemColors.Highlight;
 			case UIColorType.AccentDark1:
-				return Blend(SystemColors.Highlight, Color.Black, 0x3f);
+				return XColor.Blend(SystemColors.Highlight, Color.Black, 0x3f);
 			case UIColorType.AccentDark2:
-				return Blend(SystemColors.Highlight, Color.Black, 0x7f);
+				return XColor.Blend(SystemColors.Highlight, Color.Black, 0x7f);
 			case UIColorType.AccentDark3:
-				return Blend(SystemColors.Highlight, Color.Black, 0xbf);
+				return XColor.Blend(SystemColors.Highlight, Color.Black, 0xbf);
 			case UIColorType.AccentLight1:
-				return Blend(SystemColors.Highlight, Color.White, 0x3f);
+				return XColor.Blend(SystemColors.Highlight, Color.White, 0x3f);
 			case UIColorType.AccentLight2:
-				return Blend(SystemColors.Highlight, Color.White, 0x7f);
+				return XColor.Blend(SystemColors.Highlight, Color.White, 0x7f);
 			case UIColorType.AccentLight3:
-				return Blend(SystemColors.Highlight, Color.White, 0xbf);
+				return XColor.Blend(SystemColors.Highlight, Color.White, 0xbf);
 			case UIColorType.Background:
 				return SystemColors.Window;
 			case UIColorType.Foreground:
@@ -154,16 +144,6 @@ namespace System.Drawing
 		static Color Color_from_UIColor(global::Windows.UI.Color color)
 		{
 			return Color.FromArgb(color.A, color.R, color.G, color.B);
-		}
-
-		static Color Color_from_abgr(int abgr)
-		{
-			byte a = (byte) ((0xff000000 & abgr) >> 24);
-			byte b = (byte) ((0x00ff0000 & abgr) >> 16);
-			byte g = (byte) ((0x0000ff00 & abgr) >> 8);
-			byte r = (byte) ((0x000000ff & abgr) >> 0);
-
-			return Color.FromArgb(a, r, g, b);
 		}
 	}
 }
